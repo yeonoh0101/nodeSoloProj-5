@@ -11,7 +11,7 @@ class CommentRepository {
 
   // 댓글 작성
   createCmt = async (postId, userId, nickname, content) => {
-    const createCmtData = await Comments.create({
+    await Comments.create({
       PostId: postId,
       UserId: userId,
       nickname,
@@ -42,7 +42,7 @@ class CommentRepository {
 
   // 댓글 삭제
   deleteCmt = async (postId, commentId) => {
-    const comment = await Comments.destroy({
+    await Comments.destroy({
       where: {
         [Op.and]: [{ postId }, { commentId }], // commentId와 postId를 기준으로 삭제한다.
       },

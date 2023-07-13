@@ -28,12 +28,7 @@ class CommentController {
           .json({ success: false, errorMessage: "댓글 내용을 입력해주세요." });
       }
 
-      const createCmtData = await this.commentService.createCmt(
-        postId,
-        userId,
-        nickname,
-        content
-      );
+      await this.commentService.createCmt(postId, userId, nickname, content);
       res.status(201).json({ comments: "댓글을 작성하였습니다." });
     } catch (error) {
       res.status(400).json({ error: "댓글 작성에 실패했습니다." });

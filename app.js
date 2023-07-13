@@ -4,7 +4,7 @@ const postsRouter = require("./routes/post.routes.js");
 const userRouter = require("./routes/user.js");
 const authRouter = require("./routes/auth.js");
 const commentsRouter = require("./routes/comment.routes.js");
-const likesRouter = require("./routes/like.js");
+const likesRouter = require("./routes/like.routes.js");
 const app = express();
 const port = 3000;
 
@@ -17,6 +17,11 @@ app.use("/", [
   commentsRouter,
   likesRouter,
 ]);
+
+// 404에러 캐치 미들웨어
+app.use((req, res, next) => {
+  res.status(404).send("잘못된 경로입니다.");
+});
 
 // 서버를 지정된 port로 열고, 서버가 열렸을 때 콘솔에 메시지를 출력한다.
 app.listen(port, () => {

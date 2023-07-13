@@ -2,6 +2,17 @@ const CommentRepository = require("../repositories/comment.repository.js");
 
 class CommentService {
   commentRepository = new CommentRepository();
+  // 댓글 조회
+  findAllCmt = async (postId) => {
+    const allCmt = await this.commentRepository.findAllCmts(postId);
+
+    // 호출한 Post들을 가장 최신 게시글 부터 정렬한다.
+    allCmt.sort((a, b) => {
+      return b.createdAt - a.createdAt;
+    });
+
+    return allCmt;
+  };
 
   // 댓글 작성
   createCmt = async (postId, userId, nickname, content) => {

@@ -1,6 +1,13 @@
 const { Comments } = require("../models");
 
 class CommentRepository {
+  // 댓글 조회
+  findAllCmts = async (postId) => {
+    const comments = await Comments.findAll({ where: { postId } });
+
+    return comments;
+  };
+
   // 댓글 작성
   createCmt = async (postId, userId, nickname, content) => {
     const createCmtData = await Comments.create({

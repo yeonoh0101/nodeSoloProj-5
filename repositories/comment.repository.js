@@ -1,4 +1,5 @@
-const { Comments } = require("../models");
+const { Posts, Comments } = require("../models");
+const { Op } = require("sequelize");
 
 class CommentRepository {
   // 댓글 조회
@@ -15,6 +16,36 @@ class CommentRepository {
       UserId: userId,
       nickname,
       content,
+    });
+  };
+
+  // 게시글 조회
+  findPost = async (postId) => {
+    const post = await Posts.findOne({ where: { postId } });
+    return post;
+  };
+
+  // 댓글 조회
+  findComment = async (commentId) => {
+    const comment = await Comments.findOne({ where: { commentId } });
+    return comment;
+  };
+
+  // 댓글 수정
+  updateCmt = async (commentId, content) => {
+    const updatedComment = await Comments.update(
+      { content },
+      { where: { commentId } }
+    );
+    return updatedComment;
+  };
+
+  // 댓글 삭제
+  deleteCmt = async (postId, commentId) => {
+    const comment = await Comments.destroy({
+      where: {
+        [Op.and]: [{ postId }, { commentId }], // commentId와 postId를 기준으로 삭제한다.
+      },
     });
   };
 }

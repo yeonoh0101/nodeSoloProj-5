@@ -39,6 +39,76 @@ class CommentController {
       res.status(400).json({ error: "댓글 작성에 실패했습니다." });
     }
   };
+
+  // 댓글 수정
+  updateCmt = async (req, res, next) => {
+    try {
+      const { postId, commentId } = req.params;
+      const { userId } = res.locals.user;
+      const { content } = req.body;
+
+      // 게시글 존재여부 확인
+      const post = await this.commentService.findPost(postId);
+      if (!post) {
+        return res.status(404).json({ error: "게시글을 찾을 수 없습니다." });
+      }
+
+      // 댓글 존재여부 확인
+      const comment = await this.commentService.findComment(commentId);
+      if (!comment) {
+        return res.status(404).json({ error: "댓글을 찾을 수 없습니다." });
+      }
+
+      // 로그인 한 userId와 게시글 수정하려는 userId값이 같지 않다면
+      if (userId !== comment.UserId) {
+        return res.status(403).json({ error: "접근이 허용되지 않습니다." });
+      }
+
+      // content를 작성안한 경우
+      if (!content) {
+        return res
+          .status(400)
+          .json({ success: false, errorMessage: "댓글 내용을 입력해주세요." });
+      }
+
+      await this.commentService.updateCmt(commentId, content);
+      res.status(200).json({ data: "댓글 수정에 성공했습니다." });
+    } catch (error) {
+      console.log(error);
+      res.status(400).json({ errorMessage: "댓글 수정에 실패하였습니다." });
+    }
+  };
+
+  // 댓글 삭제
+  deleteCmt = async (req, res, next) => {
+    try {
+      const { postId, commentId } = req.params;
+      const { userId } = res.locals.user;
+
+      // 게시글 존재여부 확인
+      const post = await this.commentService.findPost(postId);
+      if (!post) {
+        return res.status(404).json({ error: "게시글을 찾을 수 없습니다." });
+      }
+
+      // 댓글 존재여부 확인
+      const comment = await this.commentService.findComment(commentId);
+      if (!comment) {
+        return res.status(404).json({ error: "댓글을 찾을 수 없습니다." });
+      }
+
+      // 로그인 한 userId와 게시글 수정하려는 userId값이 같지 않다면
+      if (userId !== comment.UserId) {
+        return res.status(403).json({ error: "접근이 허용되지 않습니다." });
+      }
+
+      await this.commentService.deleteCmt(postId, commentId);
+
+      res.status(200).json({ message: "댓글을 삭제하였습니다." });
+    } catch (error) {
+      res.status(400).json({ error: "댓글 삭제에 실패했습니다." });
+    }
+  };
 }
 
 module.exports = CommentController;

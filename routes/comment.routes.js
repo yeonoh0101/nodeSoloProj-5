@@ -11,5 +11,15 @@ router.post(
   authMiddleware,
   commentController.createCmt
 );
+router.put(
+  "/posts/:postId/comments/:commentId",
+  authMiddleware,
+  commentController.updateCmt
+);
+router.delete(
+  "/posts/:postId/comments/:commentId",
+  authMiddleware,
+  commentController.deleteCmt
+);
 
 module.exports = router;

@@ -2,7 +2,6 @@ const express = require("express"); // express module을 가져와 express변수
 const cookieParser = require("cookie-parser"); // cookie-parser 모듈을 가져온다.
 const postsRouter = require("./routes/post.routes.js");
 const userRouter = require("./routes/user.routes.js");
-const authRouter = require("./routes/auth.js");
 const commentsRouter = require("./routes/comment.routes.js");
 const likesRouter = require("./routes/like.routes.js");
 const app = express();
@@ -10,13 +9,7 @@ const port = 3000;
 
 app.use(express.json()); // express.json()을 사용하여 요청 본문을 JSON 형식으로 변환해준다.
 app.use(cookieParser()); // cookieParser()를 미들웨어로 등록한다.
-app.use("/", [
-  userRouter,
-  authRouter,
-  postsRouter,
-  commentsRouter,
-  likesRouter,
-]);
+app.use("/", [userRouter, postsRouter, commentsRouter, likesRouter]);
 
 // 404에러 캐치 미들웨어
 app.use((req, res, next) => {

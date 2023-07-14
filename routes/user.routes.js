@@ -5,5 +5,6 @@ const UserController = require("../controllers/user.controller.js");
 const userController = new UserController();
 
 router.post("/signup", userController.signupUser);
+router.post("/login", userController.loginUser);
 
 module.exports = router; // router객체를 모듈로 내보낸다

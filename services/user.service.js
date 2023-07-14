@@ -10,6 +10,11 @@ class UserService {
     );
     return createUserData;
   };
+
+  findUser = async (nickname, password) => {
+    const findUser = await this.userRepository.findUser(nickname, password);
+    return findUser;
+  };
 }
 
 module.exports = UserService;

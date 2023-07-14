@@ -1,7 +1,7 @@
 const express = require("express"); // express module을 가져와 express변수에 할당한다.
 const cookieParser = require("cookie-parser"); // cookie-parser 모듈을 가져온다.
 const postsRouter = require("./routes/post.routes.js");
-const userRouter = require("./routes/user.js");
+const userRouter = require("./routes/user.routes.js");
 const authRouter = require("./routes/auth.js");
 const commentsRouter = require("./routes/comment.routes.js");
 const likesRouter = require("./routes/like.routes.js");

@@ -41,8 +41,6 @@ class UserController {
       await this.userService.createUser(nickname, password);
       return res.status(201).json({ Message: "회원가입에 성공하였습니다." });
     } catch (error) {
-      console.log(error);
-
       return res
         .status(400)
         .json({ errorMessage: "회원가입 도중 오류가 발생했습니다." });
@@ -70,8 +68,6 @@ class UserController {
       res.cookie("Authorization", `Bearer ${token}`);
       res.status(200).json({ token, message: "로그인이 되었습니다." });
     } catch (error) {
-      console.log(error);
-
       res
         .status(400)
         .json({ errorMessage: "로그인 도중 오류가 발생하였습니다." });

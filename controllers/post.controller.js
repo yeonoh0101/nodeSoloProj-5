@@ -25,7 +25,6 @@ class PostController {
 
       res.status(200).json({ data: post });
     } catch (error) {
-      console.log(error);
       res.status(400).json({ error: "게시글 조회에 실패했습니다." });
     }
   };
@@ -40,7 +39,6 @@ class PostController {
       await this.postService.createPost(userId, title, content);
       res.status(201).json({ posts: "게시글 작성에 성공하였습니다." });
     } catch (error) {
-      console.log(error);
       res.status(400).json({ error: "게시글 작성에 실패했습니다." });
     }
   };
@@ -56,7 +54,6 @@ class PostController {
       await this.postService.updatePost(postId, userId, title, content);
       res.json({ message: "게시물 수정에 성공했습니다." });
     } catch (error) {
-      console.log(error);
       res.status(500).json({ error: "게시물 수정에 실패했습니다." });
     }
   };
@@ -71,7 +68,6 @@ class PostController {
       await this.postService.deletePost(postId, userId);
       res.status(200).json({ data: "게시글을 삭제하였습니다." });
     } catch (error) {
-      console.log(error);
       res.status(401).json({ error: "게시글 삭제에 실패했습니다." });
     }
   };

@@ -69,7 +69,6 @@ class CommentController {
       await this.commentService.updateCmt(commentId, content);
       res.status(200).json({ data: "댓글 수정에 성공했습니다." });
     } catch (error) {
-      console.log(error);
       res.status(400).json({ errorMessage: "댓글 수정에 실패하였습니다." });
     }
   };

@@ -15,7 +15,6 @@ class LikeRepository {
         [Op.and]: [{ userId }, { postId }], // userId와 postId를 기준으로 조회한다.
       },
     });
-    console.log(like);
     return like;
   };
 

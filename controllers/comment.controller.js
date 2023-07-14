@@ -98,7 +98,6 @@ class CommentController {
       }
 
       await this.commentService.deleteCmt(postId, commentId);
-
       res.status(200).json({ message: "댓글을 삭제하였습니다." });
     } catch (error) {
       res.status(400).json({ error: "댓글 삭제에 실패했습니다." });

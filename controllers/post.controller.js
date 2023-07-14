@@ -17,7 +17,7 @@ class PostController {
   };
 
   // 게시글 상세 조회
-  getPost = async (req, res, next) => {
+  getOnePost = async (req, res, next) => {
     // 서비스 계층에 구현된 findOnePost 로직을 실행한다.
     const { postId } = req.params;
     try {
@@ -37,11 +37,7 @@ class PostController {
     const { userId } = res.locals.user;
 
     try {
-      const createPostData = await this.postService.createPost(
-        userId,
-        title,
-        content
-      );
+      await this.postService.createPost(userId, title, content);
       res.status(201).json({ posts: "게시글 작성에 성공하였습니다." });
     } catch (error) {
       console.log(error);
@@ -57,12 +53,7 @@ class PostController {
     const { userId } = res.locals.user;
 
     try {
-      const updatePostData = await this.postService.updatePost(
-        postId,
-        userId,
-        title,
-        content
-      );
+      await this.postService.updatePost(postId, userId, title, content);
       res.json({ message: "게시물 수정에 성공했습니다." });
     } catch (error) {
       console.log(error);
@@ -77,7 +68,7 @@ class PostController {
     const { userId } = res.locals.user;
 
     try {
-      const deleltePostData = await this.postService.deletePost(postId, userId);
+      await this.postService.deletePost(postId, userId);
       res.status(200).json({ data: "게시글을 삭제하였습니다." });
     } catch (error) {
       console.log(error);

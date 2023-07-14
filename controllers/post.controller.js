@@ -19,8 +19,8 @@ class PostController {
   // 게시글 상세 조회
   getOnePost = async (req, res, next) => {
     // 서비스 계층에 구현된 findOnePost 로직을 실행한다.
-    const { postId } = req.params;
     try {
+      const { postId } = req.params;
       const post = await this.postService.findOnePost(postId);
 
       res.status(200).json({ data: post });
@@ -32,10 +32,10 @@ class PostController {
   // 게시글 작성
   createPost = async (req, res, next) => {
     // 서비스 계층의 구현된 createPost 로직을 실행한다.
-    const { title, content } = req.body;
-    const { userId } = res.locals.user;
-
     try {
+      const { title, content } = req.body;
+      const { userId } = res.locals.user;
+
       await this.postService.createPost(userId, title, content);
       res.status(201).json({ posts: "게시글 작성에 성공하였습니다." });
     } catch (error) {
@@ -46,11 +46,23 @@ class PostController {
   // 게시글 수정
   updatePost = async (req, res, next) => {
     // 서비스 계층에 구현된 updatePost 로직을 실행한다.
-    const { postId } = req.params;
-    const { title, content } = req.body;
-    const { userId } = res.locals.user;
-
     try {
+      const { postId } = req.params;
+      const { title, content } = req.body;
+      const { userId } = res.locals.user;
+
+      // postId를 기준으로 해당하는 게시물의 존재 여부를 확인
+      const post = await this.postService.findPostId(postId);
+
+      // 게시물이 없다면
+      if (!post) {
+        return res.status(404).json({ error: "게시물을 찾을 수 없습니다." });
+      }
+      // 게시글 수정하려는 유저와 게시글 작성한 유저 Id가 다르다면
+      if (post.UserId !== userId) {
+        return res.status(400).json({ error: "접근이 허용되지 않습니다." });
+      }
+
       await this.postService.updatePost(postId, userId, title, content);
       res.json({ message: "게시물 수정에 성공했습니다." });
     } catch (error) {
@@ -61,10 +73,22 @@ class PostController {
   // 게시글 삭제
   deletePost = async (req, res, next) => {
     // 서비스 계층에 구현된 deletePost 로직을 실행한다.
-    const { postId } = req.params;
-    const { userId } = res.locals.user;
-
     try {
+      const { postId } = req.params;
+      const { userId } = res.locals.user;
+
+      // postId를 기준으로 해당하는 게시물의 존재 여부를 확인
+      const post = await this.postService.findPostId(postId);
+
+      // 게시물이 없다면
+      if (!post) {
+        return res.status(404).json({ error: "게시물을 찾을 수 없습니다." });
+      }
+      // 게시글 수정하려는 유저와 게시글 작성한 유저 Id가 다르다면
+      if (post.UserId !== userId) {
+        return res.status(400).json({ error: "접근이 허용되지 않습니다." });
+      }
+
       await this.postService.deletePost(postId, userId);
       res.status(200).json({ data: "게시글을 삭제하였습니다." });
     } catch (error) {

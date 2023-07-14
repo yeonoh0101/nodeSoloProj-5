@@ -59,26 +59,19 @@ class PostService {
     return createPostData;
   };
 
+  // postId를 기준으로 해당하는 게시물의 존재 여부를 확인
+  findPostId = async (postId) => {
+    const findPostId = this.postRepository.findPostId(postId);
+    return findPostId;
+  };
+
   // 게시글 수정
-  updatePost = async (postId, userId, title, content) => {
-    const post = await this.postRepository.findPostId(postId);
-
-    // 게시물이 없다면
-    if (!post) {
-      throw new Error("게시물을 찾을 수 없습니다.");
-    }
-
-    // 게시글 수정하려는 유저와 게시글 작성한 유저 Id가 다르다면
-    if (post.UserId !== userId) {
-      throw new Error("접근이 허용되지 않습니다.");
-    }
-
+  updatePost = async (postId, title, content) => {
     const updatedPost = {};
 
     if (title) {
       updatedPost.title = title;
     }
-
     if (content) {
       updatedPost.content = content;
     }
@@ -88,17 +81,7 @@ class PostService {
   };
 
   // 게시글 삭제
-  deletePost = async (postId, userId) => {
-    const post = await this.postRepository.findPostId(postId);
-
-    if (!post) {
-      throw new Error("게시글이 존재하지 않습니다.");
-    }
-
-    if (post.UserId !== userId) {
-      throw new Error("게시글의 삭제 권한이 존재하지 않습니다.");
-    }
-
+  deletePost = async (postId) => {
     await this.postRepository.deletePost(postId);
   };
 }

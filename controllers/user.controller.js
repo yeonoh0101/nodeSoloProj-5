@@ -8,14 +8,14 @@ class UserController {
   // 회원가입
   signupUser = async (req, res, next) => {
     try {
-      const { nickname, password, confirmPassword } = req.body; // 요청 body에서 nickname, password, confirmPassword 값을 가져올 것이다.
-      // password, confirmpassword 값 확인
+      const { nickname, password, confirmPassword } = req.body; // 요청 body에서 nickname, password, confirmPassword 값을 가져온다.
+
+      // password, confirmpassword 값 일치한지 확인
       if (password !== confirmPassword) {
         return res
           .status(412)
           .json({ errorMessage: "비밀번호가 일치하지 않습니다." });
       }
-
       // 닉네임은 최소 3자 이상, 알파벳 대소문자(a~z, A~Z), 숫자(0~9)로 구성 확인
       if (!nickname.match(/^[a-zA-Z0-9]{3,50}$/)) {
         return res.status(412).json({
@@ -23,15 +23,13 @@ class UserController {
             "닉네임은 영어와 숫자만 포함한 3자리 이상의 문자로 입력해주세요.",
         });
       }
-
-      // 닉네임과 비밀번호가 같은 경우 회원가입 실패
+      // 닉네임과 비밀번호가 같은 경우 errorMessage
       if (nickname === password) {
         return res
           .status(412)
           .json({ errorMessage: "닉네임과 비밀번호는 같을 수 없습니다." });
       }
-
-      // 비밀번호가 4글자 이하인 경우
+      // 비밀번호가 4글자 이하인 경우 errorMessage
       if (password.length < 4) {
         return res
           .status(412)
@@ -52,7 +50,8 @@ class UserController {
     try {
       const { nickname, password } = req.body;
 
-      const userNickname = await this.userService.findUser(nickname, password);
+      // 받은 nickname에 해당하는 유저를 데이터베이스에서 찾는다.
+      const userNickname = await this.userService.findUser(nickname);
 
       // 유저를 찾았는지 여부와 패스워드 일치여부를 검사하여 error 처리를 한다.
       if (!userNickname || password !== userNickname.password) {

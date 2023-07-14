@@ -11,6 +11,7 @@ class PostRepository {
           as: "User",
         },
       ],
+      order: [["createdAt", "desc"]],
     });
 
     return posts;
@@ -28,6 +29,7 @@ class PostRepository {
         },
       ],
     });
+
     return post;
   };
 
@@ -42,12 +44,14 @@ class PostRepository {
     return createPostData;
   };
 
-  // 게시글 수정
+  // postId를 기준으로 해당하는 게시물의 존재 여부를 확인
   findPostId = async (postId) => {
     const post = await Posts.findOne({ where: { postId } });
+
     return post;
   };
 
+  // 게시글 수정
   updatePost = async (postId, updatedPost) => {
     await Posts.update(updatedPost, { where: { postId } });
   };

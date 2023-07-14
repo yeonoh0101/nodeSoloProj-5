@@ -6,11 +6,6 @@ class CommentService {
   findAllCmt = async (postId) => {
     const allCmt = await this.commentRepository.findAllCmts(postId);
 
-    // 호출한 Post들을 가장 최신 게시글 부터 정렬한다.
-    allCmt.sort((a, b) => {
-      return b.createdAt - a.createdAt;
-    });
-
     return allCmt;
   };
 
@@ -27,8 +22,6 @@ class CommentService {
     return createCmt;
   };
 
-  // 댓글 수정
-
   // 게시글 조회
   findPost = async (postId) => {
     const post = await this.commentRepository.findPost(postId);
@@ -41,7 +34,7 @@ class CommentService {
     return comment;
   };
 
-  // 수정
+  // 댓글 수정
   updateCmt = async (commentId, content) => {
     const updateCmt = await this.commentRepository.updateCmt(
       commentId,
@@ -51,20 +44,6 @@ class CommentService {
   };
 
   // 댓글 삭제
-
-  // 게시글 조회
-  findPost = async (postId) => {
-    const post = await this.commentRepository.findPost(postId);
-    return post;
-  };
-
-  // 댓글 조회
-  findComment = async (commentId) => {
-    const comment = await this.commentRepository.findComment(commentId);
-    return comment;
-  };
-
-  // 삭제
   deleteCmt = async (postId, commentId) => {
     await this.commentRepository.deleteCmt(postId, commentId);
   };

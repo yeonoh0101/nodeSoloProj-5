@@ -4,7 +4,10 @@ const { Op } = require("sequelize");
 class CommentRepository {
   // 댓글 조회
   findAllCmts = async (postId) => {
-    const comments = await Comments.findAll({ where: { postId } });
+    const comments = await Comments.findAll({
+      where: { postId },
+      order: [["createdAt", "desc"]],
+    });
 
     return comments;
   };

@@ -11,8 +11,8 @@ class UserService {
     return createUserData;
   };
 
-  findUser = async (nickname, password) => {
-    const findUser = await this.userRepository.findUser(nickname, password);
+  findUser = async (nickname) => {
+    const findUser = await this.userRepository.findUser(nickname);
     return findUser;
   };
 }

@@ -3,6 +3,7 @@ const LikeService = require("../services/like.service.js");
 class LikeController {
   likeService = new LikeService();
 
+  // 좋아요 추가, 취소
   updateDeleteLike = async (req, res, next) => {
     try {
       const { postId } = req.params;
@@ -11,9 +12,12 @@ class LikeController {
       // 게시글 존재여부 확인
       const post = await this.likeService.findPost(postId);
       if (!post) {
-        return res.status(404).json({ error: "게시글을 찾을 수 없습니다." });
+        return res
+          .status(404)
+          .json({ errorMessage: "게시글을 찾을 수 없습니다." });
       }
 
+      // 좋아요 확인
       const likes = await this.likeService.findLike(userId, postId);
 
       // 좋아요 추가
@@ -38,11 +42,12 @@ class LikeController {
     }
   };
 
+  // 내가 좋아요 달은 게시물 조회
   getLikes = async (req, res, next) => {
     try {
       const { userId } = res.locals.user;
 
-      const allLikesPosts = await this.likeService.getLikePosts(userId); // 서비스로 이동하여 게시글 조회 로직 수행
+      const allLikesPosts = await this.likeService.getLikePosts(userId);
 
       return res.status(200).json({ posts: allLikesPosts });
     } catch (error) {

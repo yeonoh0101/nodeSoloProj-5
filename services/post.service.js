@@ -8,11 +8,6 @@ class PostService {
     // 저장소(Repository)에게 데이터를 요청한다.
     const allPost = await this.postRepository.findAllPosts();
 
-    // 호출한 Post들을 가장 최신 게시글 부터 정렬한다.
-    allPost.sort((a, b) => {
-      return b.createdAt - a.createdAt;
-    });
-
     // 비즈니스 로직을 수행한 후 사용자에게 보여줄 데이터를 가공한다.
     return allPost.map((post) => {
       return {

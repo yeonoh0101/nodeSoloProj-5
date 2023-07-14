@@ -37,7 +37,7 @@ class LikeService {
 
   // 좋아요 게시글 조회
   async getLikePosts(userId) {
-    // 사용자가 좋아요한 게시물 ID 조회
+    // 사용자가 좋아요한 게시물  userId로 조회
     const likePostId = await this.likeRepository.getLikePostId(userId);
 
     // 사용자가 좋아요한 게시물을 조회

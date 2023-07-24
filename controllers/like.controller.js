@@ -47,7 +47,7 @@ class LikeController {
     try {
       const { userId } = res.locals.user;
 
-      const allLikesPosts = await this.likeService.getLikePosts(userId);
+      const { allLikesPosts } = await this.likeService.getLikePosts(userId);
 
       return res.status(200).json({ posts: allLikesPosts });
     } catch (error) {

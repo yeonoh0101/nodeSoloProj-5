@@ -51,17 +51,17 @@ class LikeRepository {
   };
 
   // 사용자가 좋아요한 게시물 ID 조회
-  async getLikePostId(userId) {
+  getLikePostId = async (userId) => {
     const likePostId = await Likes.findAll({
       where: { UserId: userId },
       attributes: ["PostId"],
     });
 
     return likePostId.map((item) => item.PostId);
-  }
+  };
 
   // 사용자가 좋아요한 게시물을 조회
-  async getPostId(postId) {
+  getPostId = async (postId) => {
     const likePosts = await Posts.findAll({
       where: { postId: postId },
       order: [["likes", "DESC"]],
@@ -75,7 +75,7 @@ class LikeRepository {
     });
 
     return likePosts;
-  }
+  };
 }
 
 module.exports = LikeRepository;
